@@ -16,7 +16,7 @@ struct clientes {
 void carregarparticipantes()
 {
 
-   int ncliente;
+   int ncliente = 0;
    FILE *fp;
    fp = fopen("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/1Dados_dos_praticantes.txt", "r");
       if(fp != NULL) {
@@ -50,7 +50,7 @@ struct atividades {
 } ;
 
 void carregaratividades() {
-    int numActivities;
+    int numActivities = 0;
     FILE *fp;
     fp = fopen("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/2Informacao_de_cada_atividade_realizada_por_cada_praticante.txt", "r");
      if(fp != NULL) {
@@ -84,7 +84,7 @@ void carregaratividades() {
 };
 
 void carregarplano() {
-    int numplano;
+    int numplano = 0;
     FILE *fp;
     fp = fopen("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/3Dados_dos_planos_de_atividades.txt", "r");
     if (fp != NULL) {
@@ -144,5 +144,5 @@ int main()
    int i;
   
    printf("Insira a opcao que deseja: ");
-   scanf("%d", op);
+   scanf("%d", &op);
 }
