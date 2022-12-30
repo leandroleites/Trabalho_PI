@@ -1,123 +1,83 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <time.h>
 
-struct clientes {
+//structs
+    typedef struct{
     int id;
     char nome[50];
+    int numero;
     int idade;
-};
+    }clientes;
 
+    typedef struct{
+        int id;
+        char data[60];
+        char hora[30];
+        char tipo[25];
+        int duracao;
+        int distancia;
+        char unidade[2];
+    }atividades;
+    
+    typedef struct{
+        int id;
+        char data_inicio[60];
+        char hora_inicio[30];
+        char data_fim[60];
+        char hora_fim[30];
+        char tipo[25];
+        int distancia;
+        char unidade[2];
+    }planos;
+//fim das structs
 
-
-void carregarparticipantes()
-{
-
-   int ncliente = 0;
-   FILE *fp;
-   fp = fopen("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/1Dados_dos_praticantes.txt", "r");
-      if(fp != NULL) {
-         printf("Clientes carregados\n");
-         struct clientes cliente[100];
-         char line[100];
-         while (fgets(line, sizeof(line), fp) != NULL)
-         {
-             sscanf(line, "%[^;];%[^;];%[^;]", &cliente[ncliente].id, cliente[ncliente].nome, cliente[ncliente].idade);
-             ncliente++;
-            
-         } 
-         fclose(fp);
-      } else 
-      {
-         printf("Erro ao abrir o ficheiro.\n");
-      }
-         
-   
-
-} 
-
-struct atividades {
-    int id;
-    char date[12];
-    char time[6];
-    char activity[20];
-    int duration;
-    int distance;
-    char units[2];
-} ;
-
-void carregaratividades() {
-    int numActivities = 0;
-    FILE *fp;
-    fp = fopen("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/2Informacao_de_cada_atividade_realizada_por_cada_praticante.txt", "r");
-     if(fp != NULL) {
-         printf("Atividades carregadas\n");
-         struct atividades atividades[100];
-         char line[100];
-         while (fgets(line, sizeof(line), fp) != NULL)
-         {
-            sscanf(line, "%d;%[^;];%[^;];%[^;];%d;%d;%s", &atividades[numActivities].id, atividades[numActivities].date, atividades[numActivities].time, atividades[numActivities].activity, &atividades[numActivities].duration, &atividades[numActivities].distance, atividades[numActivities].units);
-           (numActivities)++;
-         }
-         fclose(fp);
-     }else 
-      {
-         printf("Erro ao abrir o ficheiro.\n");
-      }
-         
-
-    fclose(fp);
-}
-
- struct plano {
-    int id;
-    char dateinicio[12];
-    char timeinicio[6];
-    char datefim[12];
-    char timefim[6];
-    char activity[20];
-    int distanceatingir;
-    char units[2];
-};
-
-void carregarplano() {
-    int numplano = 0;
-    FILE *fp;
-    fp = fopen("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/3Dados_dos_planos_de_atividades.txt", "r");
-    if (fp != NULL) {
-         printf("Planos carregados\n");
-        struct plano plano[100];
-         char line[100];
-         while (fgets(line, sizeof(line), fp) != NULL) {
-        sscanf(line, "%d;%[^;];%[^;];%[^;];%d;%d;%s", &plano[numplano].id, plano[numplano].dateinicio, plano[numplano].timeinicio, plano[numplano].datefim, plano[numplano].timefim, plano[numplano].activity, plano[numplano].units);
-        (numplano)++;
-    }
-        fclose(fp);
-    }else 
+//ler clientes
+    void ler_clientes(const char* f, clientes* cliente, int* nclientes)
     {
-         printf("Erro ao abrir o ficheiro.\n");
+    FILE* arquivo = fopen(f, "r");    
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
     }
+   
+    while (fscanf(arquivo, "%d;%[^;];%d;%d", &cliente[*nclientes].id, cliente[*nclientes].nome, &cliente[*nclientes].numero, &cliente[*nclientes].idade) == 4) {
+        (*nclientes)++;
+    }
+    fclose(arquivo);
+    }
+//fim ler clientes
 
-    
-  
-
-    
+//ler atividadess
+    void ler_atividades(const char* f, atividades* atividades, int* natividades)
+{
+    FILE* arquivo = fopen(f, "r");    
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+    }
+   
+    while (fscanf(arquivo, "%d;%[^;];%[^;];%[^;];%d;%d;%[^\n]", &atividades[*natividades].id, atividades[*natividades].data, atividades[*natividades].hora, atividades[*natividades].tipo, &atividades[*natividades].duracao, &atividades[*natividades].distancia, atividades[*natividades].unidade) == 7) {
+     (*natividades)++;
+    }
+    fclose(arquivo);
 }
+//fim ler atividades
 
-
-
-
-
-
-
-
-
-
-
-
+//ler planos
+    void ler_planos(const char* f, planos* planos, int* nplanos)
+{
+    FILE* arquivo = fopen(f, "r");    
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+    }
+   
+   while (fscanf(arquivo, "%d;%[^;];%[^;];%[^;];%[^;];%[^;];%d;%s", &planos[*nplanos].id, planos[*nplanos].data_inicio, planos[*nplanos].hora_inicio, planos[*nplanos].data_fim, planos[*nplanos].hora_fim, planos[*nplanos].tipo, &planos[*nplanos].distancia, planos[*nplanos].unidade) == 8) {
+        (*nplanos)++;
+    }
+fclose(arquivo);
+}
+//fim ler planos
 
 void opcoesgerais() 
 {
@@ -129,20 +89,24 @@ void opcoesgerais()
 
 }
 
-
-int main() 
+int main ()
 {
-   carregarparticipantes();
-   carregaratividades();
-   carregarplano();
-   opcoesgerais();
+    //leitura dos ficheiros
+    clientes cliente[100];
+    int nclientes=0;
+    ler_clientes("C:/Users/dific/OneDrive/Desktop/Trab/dados/1Dados_dos_praticantes.txt",cliente,&nclientes);
 
-   int op;
-   struct clientes cliente;
-   struct plano plano;
-   struct atividades atividades;
-   int i;
-  
-   printf("Insira a opcao que deseja: ");
-   scanf("%d", &op);
+    atividades atividade[100];
+    int natividades=0;
+    ler_atividades("C:/Users/dific/OneDrive/Desktop/Trab/dados/2informacao_de_cada_atividade_realizada_por_cada_praticante.txt",atividade,&natividades);
+    
+    planos plano[100];
+    int nplanos=0;
+    ler_planos("C:/Users/dific/OneDrive/Desktop/Trab/dados/3Dados_dos_planos_de_atividades.txt",plano,&nplanos);
+    //fim leitura dos ficheiros
+    int op=0;
+    opcoesgerais(); 
+    scanf("%d", op);
+    
+    return 0;
 }
