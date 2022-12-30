@@ -9,5 +9,6 @@
         "xlocmon": "c",
         "xlocnum": "c",
         "xloctime": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

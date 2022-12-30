@@ -79,14 +79,62 @@ fclose(arquivo);
 }
 //fim ler planos
 
+
+
+
+void calcularTempos(atividades* atividades, int natividades) {
+  // cria array de contagem para armazenar quantas vezes cada tipo de atividade foi realizada
+  int contagem[natividades];
+  memset(contagem, 0, sizeof(contagem));
+  
+  // percorre o array de atividades e atualiza o valor correspondente no array de contagem
+  for (int i = 0; i < natividades; i++) {
+    for (int j = 0; j < natividades; j++) {
+      if (strcmp(atividades[i].tipo, atividades[j].tipo) == 0) {
+        contagem[i]++;
+      }
+    }
+  }
+  
+  // cria array para armazenar os tempos totais por tipo de atividade
+  int temposTotais[natividades];
+  memset(temposTotais, 0, sizeof(temposTotais));
+  
+  // percorre o array de atividades e soma o tempo total para cada tipo de atividade
+  for (int i = 0; i < natividades; i++) {
+    for (int j = 0; j < natividades; j++) {
+      if (strcmp(atividades[i].tipo, atividades[j].tipo) == 0) {
+        temposTotais[i] += atividades[j].duracao;
+      }
+    }
+  }
+  
+  // percorre o array de contagem e tempos totais e exibe os resultados
+  for (int i = 0; i < natividades; i++) {
+    if (contagem[i] > 0) {
+      printf("Tipo de atividade: %s\n", atividades[i].tipo);
+      printf("Tempo total: %d\n", temposTotais[i]);
+      printf("Tempo médio: %.2f\n", (float) temposTotais[i] / contagem[i]);
+    }
+  }
+}
+
+
+
+
+
+
 void opcoesgerais() 
 {
    printf("1- Colocar aqui\n");
    printf("2- Colocar aqui\n");
    printf("3- Colocar aqui\n");
    printf("4- Colocar aqui\n");
-   
-
+   printf("5- Colocar aqui\n");
+   printf("6- Colocar aqui\n");
+   printf("7- Calcular tempos totais e média de tempos \n");
+   printf("8- Colocar aqui\n");
+   printf("9- Colocar aqui\n");
 }
 
 int main ()
@@ -94,19 +142,27 @@ int main ()
     //leitura dos ficheiros
     clientes cliente[100];
     int nclientes=0;
-    ler_clientes("C:/Users/dific/OneDrive/Desktop/Trab/dados/1Dados_dos_praticantes.txt",cliente,&nclientes);
+    ler_clientes("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/1Dados_dos_praticantes.txt",cliente,&nclientes);
 
     atividades atividade[100];
     int natividades=0;
-    ler_atividades("C:/Users/dific/OneDrive/Desktop/Trab/dados/2informacao_de_cada_atividade_realizada_por_cada_praticante.txt",atividade,&natividades);
+    ler_atividades("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/2informacao_de_cada_atividade_realizada_por_cada_praticante.txt",atividade,&natividades);
     
     planos plano[100];
     int nplanos=0;
-    ler_planos("C:/Users/dific/OneDrive/Desktop/Trab/dados/3Dados_dos_planos_de_atividades.txt",plano,&nplanos);
+    ler_planos("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/3Dados_dos_planos_de_atividades.txt",plano,&nplanos);
     //fim leitura dos ficheiros
     int op=0;
     opcoesgerais(); 
     scanf("%d", op);
-    
+     if (op==7)
+     {
+            ler_atividades("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/2informacao_de_cada_atividade_realizada_por_cada_praticante.txt", atividade, &natividades);
+  
+            // calcular tempos totais e médios por atividade
+            calcularTempos(atividade, natividades);
+
+
+     }
     return 0;
 }
