@@ -126,15 +126,79 @@ void calcularTempos(atividades* atividades, int natividades) {
 
 void opcoesgerais() 
 {
-   printf("1- Colocar aqui\n");
-   printf("2- Colocar aqui\n");
-   printf("3- Colocar aqui\n");
-   printf("4- Colocar aqui\n");
-   printf("5- Colocar aqui\n");
-   printf("6- Colocar aqui\n");
-   printf("7- Calcular tempos totais e média de tempos \n");
-   printf("8- Colocar aqui\n");
-   printf("9- Colocar aqui\n");
+        //leitura dos ficheiros
+    clientes cliente[100];
+    int nclientes=0;
+    ler_clientes("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/1Dados_dos_praticantes.txt",cliente,&nclientes);
+
+    atividades atividade[100];
+    int natividades=0;
+    ler_atividades("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/2informacao_de_cada_atividade_realizada_por_cada_praticante.txt",atividade,&natividades);
+    
+    planos plano[100];
+    int nplanos=0;
+    ler_planos("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/3Dados_dos_planos_de_atividades.txt",plano,&nplanos);
+    int op=0;
+   while (1)
+    {
+
+      printf("1- Colocar aqui\n");
+      printf("2- Colocar aqui\n");
+      printf("3- Colocar aqui\n");
+      printf("4- Calcular tempos totais e media de tempos\n");
+      printf("5- Colocar aqui\n");
+      printf("6- Colocar aqui\n");
+      printf("7- Colocar aqui \n");
+      printf("8- Colocar aqui\n");
+      printf("9- Colocar aqui\n");
+      printf("10- Sair\n");
+      
+      printf("Opcao: ");
+      scanf("%d", op);
+      switch (op)
+        {
+            case 1:
+                // Executa a opção 1
+                break;
+            case 2:
+                // Executa a opção 2
+                break;
+            case 3:
+                // Executa a opção 3
+                break;
+            case 4:
+            
+            ler_atividades("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/2informacao_de_cada_atividade_realizada_por_cada_praticante.txt", atividade, &natividades);
+  
+           
+            calcularTempos(atividade, natividades);
+                break;
+            case 5:
+                // Executa a opção 3
+                break;
+            case 6:
+                // Executa a opção 3
+                break;
+            case 7:
+                // Executa a opção 3
+                break;    
+            case 8:
+                // Executa a opção 3
+                break;
+            case 9:
+                // Executa a opção 3
+                break;    
+            case 10:
+                // Sair do programa
+                return 0;
+            default:
+                printf("Opcao invalida.\n");
+                break;
+        }
+
+    }
+
+    return 0;
 }
 
 int main ()
@@ -152,17 +216,10 @@ int main ()
     int nplanos=0;
     ler_planos("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/3Dados_dos_planos_de_atividades.txt",plano,&nplanos);
     //fim leitura dos ficheiros
-    int op=0;
+ 
     opcoesgerais(); 
-    scanf("%d", op);
-     if (op==7)
-     {
-            ler_atividades("C:/Users/leand/Documents/Trabalho_PI/Trabalho PI/dados/2informacao_de_cada_atividade_realizada_por_cada_praticante.txt", atividade, &natividades);
-  
-            // calcular tempos totais e médios por atividade
-            calcularTempos(atividade, natividades);
 
 
-     }
+
     return 0;
 }
