@@ -135,7 +135,7 @@ void opcoesgerais()
     while (1)
     {
         printf("1- Numero de participantes para uma atividade durante um determinado periodo de tempo\n");
-        printf("2- Colocar aqui\n");
+        printf("2-ID de praticantes que realizaram uma atividade durante um determinado periodo de tempo\n");
         printf("3- Colocar aqui\n");
         printf("4- Calcular tempos totais e media de tempos\n");
         printf("5- Colocar aqui\n");
@@ -147,13 +147,14 @@ void opcoesgerais()
 
         printf("Opcao: ");
         scanf("%d", &op);
+
         switch (op)
         {
         case 1:
             AtividadeDeterminadoPeriodo(atividade, natividades);
             break;
         case 2:
-            // Executa a opção 2
+            AlgumaAtividadeDeterminadoPeriodo(atividade, natividades);
             break;
         case 3:
             // Executa a opção 3
@@ -221,6 +222,50 @@ int AtividadeDeterminadoPeriodo(atividades* atividades, int natividades)
 
     printf("Para a atividade %s, das %s ate as %s participaram %d atletas.\n", atividade, tempoDe, tempoAte, contagem);
 }
+int comparar_ids(const void* a, const void* b) {
+    int int_a = *((int*)a);
+    int int_b = *((int*)b);
+
+    if (int_a == int_b) return 0;
+    else if (int_a < int_b) return -1;
+    else return 1;
+}
+
+
+int AlgumaAtividadeDeterminadoPeriodo(atividades* atividades, int natividades)
+{
+    char tempoDe[25];
+    char tempoAte[25];
+    char atividade[25];
+    int contagem = 0;
+    int numero = 0;
+    numero = natividades;
+    char** ID_utilizador = malloc(0);
+    printf("Em que periodo de tempo quer procurar?\n");
+    printf("De:\n");
+    scanf("%s", tempoDe);
+    printf("Ate:\n");
+    scanf("%s", tempoAte);
+
+    for (int i = 0; i < numero; i++)
+    {
+        int result = verificar_se_entre_dado_tempo(tempoDe, tempoAte, atividades[i].hora);
+        if (result == 1)
+        {
+            contagem++;
+            ID_utilizador = realloc(ID_utilizador, contagem * sizeof(char*));
+            ID_utilizador[contagem - 1] = atividades[i].id;
+        }
+    }
+    qsort(ID_utilizador, contagem, sizeof(char*), comparar_ids);
+    printf("Das %s ate as %s a lista de IDs das pessoas que participaram em atividades foram:\n", tempoDe, tempoAte);
+    for (int j = contagem - 1; j >= 0; j--) {
+        printf("%d\n", ID_utilizador[j]);
+
+    }
+    free(ID_utilizador);
+    return 0;
+}
 
 int verificar_se_entre_dado_tempo(char* time1_str, char* time2_str, char* time_str) {
     // para não dar erro no mktime
@@ -234,12 +279,12 @@ int verificar_se_entre_dado_tempo(char* time1_str, char* time2_str, char* time_s
     time.tm_year = 122;
     time1.tm_hour = 9;
     time1.tm_min = 30;
-    time1.tm_mon = 0; 
-    time1.tm_mday = 1; 
+    time1.tm_mon = 0;
+    time1.tm_mday = 1;
     time1.tm_year = 122;
     time2.tm_hour = 9;
     time2.tm_min = 30;
-    time2.tm_mon = 0; 
+    time2.tm_mon = 0;
     time2.tm_mday = 1;
     time2.tm_year = 122;
 
