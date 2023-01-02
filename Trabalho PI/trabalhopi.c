@@ -11,6 +11,7 @@ typedef struct {
     char nome[50];
     int numero;
     int idade;
+    
 }clientes;
 
 typedef struct {
@@ -33,6 +34,30 @@ typedef struct {
     int distancia;
     char unidade[2];
 }planos;
+
+
+
+typedef struct {
+
+  int praticanteid;
+  int seguidorid;
+
+}seguidores;
+
+typedef struct {
+    int numero_praticante;
+    char nome[50];
+    char atividade_planeada[50];
+    char unidade_planeada[10];
+    int valor_planeado;
+    char atividade_realizada[50];
+    char data_inicio[60];
+    char data_fim[60];
+    char unidade_realizada[10];
+    int valor_realizado;
+} tabela_atividades;
+
+
 //fim das structs
 
 //ler clientes
@@ -117,6 +142,192 @@ void calcularTempos(atividades* atividades, int natividades) {
     }
 }
 
+void Menuseguidores(seguidores* seguidores, clientes* clientes, int* nseguidores, int nclientes)
+{
+   
+    int o;
+   printf("--------------------------------------------------\n");
+
+   printf("|1- Ver lista de seguidores e praticantes        |\n");
+   printf("|2- Seguir algum praticante                      |\n");
+
+   printf("--------------------------------------------------\n\n\n");
+   printf("Escolha a opcao que deseja:                \n");
+   scanf("%d", &o);
+   if (o== 1)
+   {
+         printf("Tabela de seguidores:\n");
+         printf("Praticante ID | Seguidor ID\n");
+          for (int i = 0; i < *nseguidores; i++) {
+           printf("%d | %d\n", seguidores[i].praticanteid, seguidores[i].seguidorid);
+    }
+     
+   }
+   else if(o==2)
+   {  
+
+      int praticanteid, seguidorid;
+        printf("Insira o ID do praticante: ");
+        scanf("%d", &praticanteid);
+        printf("Insira o ID do seguidor: ");
+        scanf("%d", &seguidorid);
+
+        // Verifica se os IDs inseridos são válidos e se o seguidor já não está seguindo o praticante
+        int praticanteExiste = 0, seguidorExiste = 0, jaSeguindo = 0;
+        for (int i = 0; i < nclientes; i++) {
+            if (clientes[i].id == praticanteid) {
+            praticanteExiste = 1;
+            }
+            if (clientes[i].id == seguidorid) {
+            seguidorExiste = 1;
+            }
+        }
+        for (int i = 0; i < *nseguidores; i++) {
+            if (seguidores[i].praticanteid == praticanteid && seguidores[i].seguidorid == seguidorid) {
+            jaSeguindo = 1;
+            }
+        }
+        if (!praticanteExiste || !seguidorExiste) {
+            printf("Um dos IDs inseridos é inválido.\n");
+        }
+        else if (jaSeguindo) {
+            printf("O seguidor já está seguindo o praticante.\n");
+        }
+        else {
+            seguidores[*nseguidores].praticanteid = praticanteid;
+            seguidores[*nseguidores].seguidorid = seguidorid;
+            (*nseguidores)++;
+            printf("Seguidor adicionado com sucesso.\n \n \n \n \n");
+        }
+     }
+     
+      
+}
+
+void dez(clientes* cliente,atividades* atividade,seguidores* seguidor,int* natividade,int* nclientes)
+{
+    int c=0;
+  int op=0;
+  int guardaid=0;
+  for (int i = 0; i < natividade; i++) {
+    printf("Atividade: %s", atividade[i].tipo);
+    for (int z = 0; z <nclientes; z++) {
+      if (atividade[i].id == cliente[z].id) {
+        printf("\n Id: %d\nNome: %s \n",cliente[z].id, cliente[z].nome);
+        guardaid=cliente[z].id;
+      }
+    }
+    printf("Tempo: %d \n\n",atividade[i].duracao);
+  }
+  printf("Insira o id:");
+  scanf("%d",&op);
+  printf("\nSeguidores e seus tempos: ");
+  for(int i=0;i<nclientes;i++){
+    if(seguidor[i].praticanteid==op)
+    {
+     for(int c=0;c<nclientes;c++)
+     {
+        if(cliente[c].id==seguidor[i].seguidorid)
+     printf("%d",cliente[c].nome);
+
+     }
+    c++;
+    }
+  }
+  if(c==0)
+  {
+    printf("0 seguidores.");
+  }
+}
+
+void onze(clientes* cliente,atividades* atividade,seguidores* seguidor,int* natividade,int* nclientes)
+{
+    int c=0;
+  int op=0;
+  int guardaid=0;
+  for (int i = 0; i < natividade; i++) {
+    printf("Atividade: %s", atividade[i].tipo);
+    for (int z = 0; z <nclientes; z++) {
+      if (atividade[i].id == cliente[z].id) {
+        printf("\n Id: %d\nNome: %s \n",cliente[z].id, cliente[z].nome);
+        guardaid=cliente[z].id;
+      }
+    }
+    printf("Tempo: %d \n\n",atividade[i].duracao);
+  }
+  printf("Insira o id:");
+  scanf("%d",&op);
+  printf("\nSeguidores e seus tempos: ");
+  for(int i=0;i<nclientes;i++){
+    if(seguidor[i].seguidorid==op)
+    {
+     for(int c=0;c<nclientes;c++)
+     {
+        if(cliente[c].id==seguidor[i].praticanteid)
+        printf("%d",cliente[c].nome);
+
+     }
+    c++;
+    }
+  }
+  if(c==0)
+  {
+    printf("A seguir 0 pessoas.");
+  }
+}     
+int comparar_ids(const void* a, const void* b) {
+    int int_a = *((int*)a);
+    int int_b = *((int*)b);
+
+    if (int_a == int_b) return 0;
+    else if (int_a < int_b) return -1;
+    else return 1;
+}
+
+
+int AlgumaAtividadeDeterminadoPeriodo(atividades* atividades, int natividades)
+{
+    char tempoDe[25];
+    char tempoAte[25];
+    char atividade[25];
+    int contagem = 0;
+    int numero = 0;
+    numero = natividades;
+    char** ID_utilizador = malloc(0);
+    printf("Em que periodo de tempo quer procurar?\n");
+    printf("De:\n");
+    scanf("%s", tempoDe);
+    printf("Ate:\n");
+    scanf("%s", tempoAte);
+
+    for (int i = 0; i < numero; i++)
+    {
+        int result = verificar_se_entre_dado_tempo(tempoDe, tempoAte, atividades[i].hora);
+        if (result == 1)
+        {
+            contagem++;
+            ID_utilizador = realloc(ID_utilizador, contagem * sizeof(char*));
+            ID_utilizador[contagem - 1] = atividades[i].id;
+        }
+    }
+    qsort(ID_utilizador, contagem, sizeof(char*), comparar_ids);
+    printf("Das %s ate as %s a lista de IDs das pessoas que participaram em atividades foram:\n", tempoDe, tempoAte);
+    for (int j = contagem - 1; j >= 0; j--) {
+        printf("%d\n", ID_utilizador[j]);
+
+    }
+    free(ID_utilizador);
+    return 0;
+}
+
+
+
+ 
+
+
+
+
+
 void opcoesgerais()
 {
     //leitura dos ficheiros
@@ -131,20 +342,26 @@ void opcoesgerais()
     planos plano[100];
     int nplanos = 0;
     ler_planos("../fix3.txt", plano, &nplanos);
+    seguidores seguidor[100] ;
+    int nseguidores=0;
+    
+    int c=0;
     int op = 0;
     while (1)
-    {
-        printf("1- Numero de participantes para uma atividade durante um determinado periodo de tempo\n");
-        printf("2- Colocar aqui\n");
-        printf("3- Colocar aqui\n");
-        printf("4- Calcular tempos totais e media de tempos\n");
-        printf("5- Colocar aqui\n");
-        printf("6- Colocar aqui\n");
-        printf("7- Colocar aqui \n");
-        printf("8- Colocar aqui\n");
-        printf("9- Colocar aqui\n");
-        printf("10- Sair\n");
-
+    {   
+        printf("\n\n");
+        printf("-----------------------------------------------------------------------------------------------------\n");
+        printf("|1- Numero de participantes para uma atividade durante um determinado periodo de tempo               |\n");
+        printf("|2- ID de praticantes que realizaram uma atividade durante um determinado periodo de tempo           |\n"); 
+        printf("|3- Colocar aqui                                                                                     |\n");
+        printf("|4- Calcular tempos totais e media de tempos                                                         |\n");
+        printf("|5- Gerar tabela de atividades planeadas                                                             |\n");
+        printf("|6- Menu seguidores                                                                                  |\n");
+        printf("|7- Colocar aqui                                                                                     |\n");
+        printf("|8- Colocar aqui                                                                                     |\n");
+        printf("|9- Colocar aqui                                                                                     |\n");
+        printf("|10- Sair                                                                                            |\n");
+        printf("-----------------------------------------------------------------------------------------------------\n");
         printf("Opcao: ");
         scanf("%d", &op);
         switch (op)
@@ -153,7 +370,7 @@ void opcoesgerais()
             AtividadeDeterminadoPeriodo(atividade, natividades);
             break;
         case 2:
-            // Executa a opção 2
+            AlgumaAtividadeDeterminadoPeriodo(atividade, natividades);
             break;
         case 3:
             // Executa a opção 3
@@ -165,13 +382,13 @@ void opcoesgerais()
             // Executa a opção 3
             break;
         case 6:
-            // Executa a opção 3
+            Menuseguidores(seguidor, cliente, &nseguidores, nclientes);
             break;
         case 7:
-            // Executa a opção 3
+             dez(cliente,atividade,seguidor,&natividades,&nclientes);
             break;
         case 8:
-            // Executa a opção 3
+            onze(cliente,atividade,seguidor,&natividades,&nclientes);
             break;
         case 9:
             // Executa a opção 3
@@ -188,6 +405,17 @@ void opcoesgerais()
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 int AtividadeDeterminadoPeriodo(atividades* atividades, int natividades)
 {
