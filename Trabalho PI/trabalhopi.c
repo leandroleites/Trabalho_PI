@@ -207,8 +207,8 @@ void Menuseguidores(seguidores* seguidores, clientes* clientes, int* nseguidores
 void dez(clientes* cliente,atividades* atividade,seguidores* seguidor,int* natividade,int* nclientes)
 {
     int c=0;
-  int op=0;
-  int guardaid=0;
+    int op=0;
+    int guardaid=0;
   for (int i = 0; i < natividade; i++) {
     printf("Atividade: %s", atividade[i].tipo);
     for (int z = 0; z <nclientes; z++) {
@@ -319,7 +319,49 @@ int AlgumaAtividadeDeterminadoPeriodo(atividades* atividades, int natividades)
     free(ID_utilizador);
     return 0;
 }
+int ApresentacaodoPlanodeAtividades(planos* planos, int natividades)
+{
+    char tempoDe[25];
+    char tempoAte[25];
+    char ID[4];
+    int contagem = 0;
+    int numero = 0;
+    numero = natividades;
+    char** tipo = malloc(0);
+    char id_scanner[4];
 
+    printf("ID que quer procurar(X):\n");
+    scanf("%s", ID);
+    printf("Em que periodo de tempo quer procurar?(hh:mm)\n");
+    printf("De:\n");
+    scanf("%s", tempoDe);
+    printf("Ate:\n");
+    scanf("%s", tempoAte);
+    for (int i = 0; i < numero; i++)
+    {
+        sprintf(id_scanner, "%d", planos[i].id);
+        int compareResult = strcmp(id_scanner, ID);
+        if (compareResult == 0)
+        {
+            int result = verificar_se_entre_dado_tempo(tempoDe, tempoAte, planos[i].hora_inicio);
+            if (result == 1)
+            {
+                contagem++;
+                tipo = realloc(tipo, contagem * sizeof(char*));
+                tipo[contagem - 1] = planos[i].tipo;
+            }
+        }
+
+    }
+    printf("Das %s ate as %s 0 ID %s tem uma atividade tipo:\n", tempoDe, tempoAte, ID);
+    for (int j = 0; j < contagem; j++)
+    {
+        printf("%s\n", &tipo[j]);
+
+    }
+    free(tipo);
+    return 0;
+}
 
 
  
@@ -353,13 +395,12 @@ void opcoesgerais()
         printf("-----------------------------------------------------------------------------------------------------\n");
         printf("|1- Numero de participantes para uma atividade durante um determinado periodo de tempo               |\n");
         printf("|2- ID de praticantes que realizaram uma atividade durante um determinado periodo de tempo           |\n"); 
-        printf("|3- Colocar aqui                                                                                     |\n");
-        printf("|4- Calcular tempos totais e media de tempos                                                         |\n");
+        printf("|3- Apresentação de plano de atividades                                                              |\n");
         printf("|5- Gerar tabela de atividades planeadas                                                             |\n");
         printf("|6- Menu seguidores                                                                                  |\n");
-        printf("|7- Colocar aqui                                                                                     |\n");
-        printf("|8- Colocar aqui                                                                                     |\n");
-        printf("|9- Colocar aqui                                                                                     |\n");
+        printf("|7- Listagem por atividade com o praticante com o maior tempo                                        |\n");
+        printf("|8- Listagem por atividade com o praticante com o maior tempo    (praticantes seguidos)              |\n");
+        printf("|9- ----                                                                                             |\n");
         printf("|10- Sair                                                                                            |\n");
         printf("-----------------------------------------------------------------------------------------------------\n");
         printf("Opcao: ");
@@ -373,7 +414,7 @@ void opcoesgerais()
             AlgumaAtividadeDeterminadoPeriodo(atividade, natividades);
             break;
         case 3:
-            // Executa a opção 3
+            ApresentacaodoPlanodeAtividades(plano, nplanos);
             break;
         case 4:
             calcularTempos(atividade, natividades);
