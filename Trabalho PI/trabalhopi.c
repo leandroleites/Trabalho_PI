@@ -137,7 +137,7 @@ void calcularTempos(atividades* atividades, int natividades) {
         if (contagem[i] > 0) {
             printf("Tipo de atividade: %s\n", atividades[i].tipo);
             printf("Tempo total: %d\n", temposTotais[i]);
-            printf("Tempo médio: %.2f\n", (float)temposTotais[i] / contagem[i]);
+            printf("Tempo medio: %.2f\n", (float)temposTotais[i] / contagem[i]);
         }
     }
 }
@@ -395,7 +395,8 @@ void opcoesgerais()
         printf("-----------------------------------------------------------------------------------------------------\n");
         printf("|1- Numero de participantes para uma atividade durante um determinado periodo de tempo               |\n");
         printf("|2- ID de praticantes que realizaram uma atividade durante um determinado periodo de tempo           |\n"); 
-        printf("|3- Apresentação de plano de atividades                                                              |\n");
+        printf("|3- Apresentacao de plano de atividades                                                              |\n");
+        printf("|4- Calcular tempos                                                                                  |\n");
         printf("|5- Gerar tabela de atividades planeadas                                                             |\n");
         printf("|6- Menu seguidores                                                                                  |\n");
         printf("|7- Listagem por atividade com o praticante com o maior tempo                                        |\n");
